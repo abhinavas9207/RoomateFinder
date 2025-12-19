@@ -1,0 +1,13 @@
+<h3>My Chats</h3>
+{% for c in chat_data %}
+<div style="border:1px solid #ccc;padding:10px;margin:10px">
+<b>User:</b> {{ c.chat.user.username }}<br>
+<b>Room:</b> {{ c.chat.room.title }}<br>
+<b>Last:</b> {{ c.last.message|default:"No messages" }}
+{% if c.unread > 0 %}
+<span style="color:red">({{ c.unread }})</span>
+{% endif %}
+<br>
+<a href="{% url 'chat_room' c.chat.id %}">Open</a>
+</div>
+{% endfor %}

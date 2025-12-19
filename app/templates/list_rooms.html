@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>Available Rooms</h3>
+<a href="{% url 'add_room' %}" class="btn btn-primary mb-3">+ Add New Room</a>
+<table class="table table-bordered table-hover">
+  <tr>
+    <th>Title</th>
+    <th>Location</th>
+    <th>Rent</th>
+    <th>Type</th>
+    <th>Action</th>
+  </tr>
+  {% for room in rooms %}
+  <tr>
+    <td>{{ room.title }}</td>
+    <td>{{ room.location }}</td>
+    <td>{{ room.rent }}</td>
+    <td>{{ room.room_type }}</td>
+    <td>
+      <a href="{% url 'edit_room' room.id %}" class="btn btn-warning btn-sm">Edit</a>
+      <a href="{% url 'delete_room' room.id %}" class="btn btn-danger btn-sm">Delete</a>
+    </td>
+  </tr>
+  {% empty %}
+  <tr><td colspan="5">No rooms available.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}
+    

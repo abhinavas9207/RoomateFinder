@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h3>{{ profile.name }}'s Profile</h3>
+<hr>
+<p><strong>Email:</strong> {{ profile.email }}</p>
+<p><strong>Gender:</strong> {{ profile.gender }}</p>
+<p><strong>Occupation:</strong> {{ profile.occupation }}</p>
+<p><strong>Bio:</strong> {{ profile.bio }}</p>
+<img src="{{ profile.profile_image.url }}" class="img-thumbnail" width="200">
+{% endblock %}

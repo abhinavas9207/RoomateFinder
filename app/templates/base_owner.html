@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Owner Dashboard{% endblock %}</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background-color: #f1f5f9;
+    }
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 250px;
+      height: 100%;
+      background: linear-gradient(180deg, #059669, #047857);
+      color: #fff;
+      padding: 20px;
+    }
+    .sidebar h3 {
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 30px;
+    }
+    .sidebar a {
+      display: block;
+      padding: 12px 20px;
+      margin-bottom: 10px;
+      color: #d1fae5;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: 0.3s;
+    }
+    .sidebar a:hover, .sidebar a.active {
+      background-color: #10b981;
+      color: #fff;
+    }
+    .main-content {
+      margin-left: 260px;
+      padding: 30px;
+    }
+  </style>
+
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+  <div class="sidebar">
+  <h3><i class="fa-solid fa-building"></i> Owner Panel</h3>
+
+  <a href="{% url 'owner_dashboard' %}">
+    <i class="fa-solid fa-gauge"></i> Dashboard
+  </a>
+
+  <a href="{% url 'owner_profile' %}">
+    <i class="fa-solid fa-user"></i> View Profile
+  </a>
+
+  <a href="{% url 'owner_chat_list' %}">
+    <i class="fa-solid fa-comments"></i> Chat
+  </a>
+
+  <a href="{% url 'add_room' %}">
+    <i class="fa-solid fa-plus-circle"></i> Add Room
+  </a>
+
+  <a href="{% url 'owner_dashboard' %}">
+    <i class="fa-solid fa-list"></i> My Listings
+  </a>
+
+  <a href="{% url 'logout' %}">
+    <i class="fa-solid fa-right-from-bracket"></i> Logout
+  </a>
+</div>
+
+  <div class="main-content">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>

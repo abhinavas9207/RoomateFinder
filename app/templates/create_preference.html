@@ -1,0 +1,139 @@
+{% extends 'base_user.html' %}
+{% load static %}
+
+{% block title %}My Preferences{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+  <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+
+    <!-- Header -->
+    <div class="card-header text-white text-center py-4 border-0"
+      style="background: linear-gradient(135deg, #4c6ef5, #6a11cb);">
+      <h3 class="mb-0 fw-semibold">
+        <i class="bi bi-sliders2-vertical me-2"></i>My Preferences
+      </h3>
+      <p class="text-white-50 small mb-0">Customize your roommate and living preferences</p>
+    </div>
+
+    <!-- Body -->
+    <div class="card-body p-5 bg-light-subtle">
+      <form method="POST" novalidate>
+        {% csrf_token %}
+
+        <div class="row g-4">
+
+          <!-- Budget -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-secondary">Minimum Budget</label>
+            {{ form.budget_min }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-secondary">Maximum Budget</label>
+            {{ form.budget_max }}
+          </div>
+
+          <!-- Location -->
+          <div class="col-12">
+            <label class="form-label fw-semibold text-secondary">Preferred Location</label>
+            {{ form.preferred_location }}
+          </div>
+
+          <!-- Hobbies -->
+          <div class="col-12">
+            <label class="form-label fw-semibold text-secondary mb-3">
+              Select Hobbies
+            </label>
+
+            <div class="row g-3">
+              {% for checkbox in form.hobbies %}
+                <div class="col-md-4 col-sm-6">
+                  <div class="form-check bg-white rounded-3 p-3 shadow-sm">
+                    {{ checkbox.tag }}
+                    <label class="form-check-label fw-medium ms-2">
+                      {{ checkbox.choice_label }}
+                    </label>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+
+
+          <!-- Preferences -->
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-secondary">Gender Preference</label>
+            {{ form.gender_preference }}
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label fw-semibold text-secondary">Cleanliness Level</label>
+            {{ form.cleanliness }}
+          </div>
+
+          <!-- Notes -->
+          <div class="col-12">
+            <label class="form-label fw-semibold text-secondary">Lifestyle Notes</label>
+            {{ form.lifestyle_notes }}
+          </div>
+
+          <!-- Switches -->
+          <div class="col-md-4 d-flex align-items-center">
+            <div class="form-check form-switch">
+              {{ form.smoking }}
+              <label class="form-check-label fw-semibold" for="{{ form.smoking.id_for_label }}">
+                Smoking
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-4 d-flex align-items-center">
+            <div class="form-check form-switch">
+              {{ form.drinking }}
+              <label class="form-check-label fw-semibold" for="{{ form.drinking.id_for_label }}">
+                Drinking
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-4 d-flex align-items-center">
+            <div class="form-check form-switch">
+              {{ form.pets }}
+              <label class="form-check-label fw-semibold" for="{{ form.pets.id_for_label }}">
+                Pets
+              </label>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Submit -->
+        <div class="text-center mt-5">
+          <button type="submit"
+            class="btn btn-gradient px-5 py-2 rounded-pill fw-semibold shadow-sm"
+            style="background: linear-gradient(90deg, #6a11cb, #4c6ef5); color: white;">
+            <i class="bi bi-save2 me-2"></i>Save Preferences
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  .form-control,
+  select,
+  textarea {
+    border-radius: 10px !important;
+    border: 1px solid #dee2e6 !important;
+    background-color: #fff !important;
+  }
+  .form-control:focus {
+    border-color: #6a11cb !important;
+    box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25) !important;
+  }
+</style>
+{% endblock %}

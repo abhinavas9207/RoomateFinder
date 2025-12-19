@@ -1,0 +1,93 @@
+{% extends 'base_owner.html' %}
+
+{% block content %}
+<style>
+  .dashboard-card {
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      padding: 35px;
+      margin-bottom: 30px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .dashboard-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  }
+
+  .dashboard-card h2 {
+      color: #1e40af;
+      font-weight: 700;
+      margin-bottom: 15px;
+  }
+
+  .btn-custom {
+      background: #3b82f6;
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 20px;
+      border: none;
+      transition: 0.3s ease;
+      font-weight: 500;
+  }
+
+  .btn-custom:hover {
+      background: #1e40af;
+  }
+
+  .table thead {
+      background: #3b82f6;
+      color: #fff;
+  }
+
+  .table tbody tr:hover {
+      background: #eff6ff;
+  }
+</style>
+
+<div class="dashboard-card">
+    <h2>👋 Welcome, {{ request.user.username }}!</h2>
+    <p class="mb-4">Manage your rooms below:</p>
+
+    <a href="{% url 'add_room' %}" class="btn btn-custom mb-3">➕ Add New Room</a>
+
+    <div class="table-responsive">
+        <table class="table table-borderless align-middle">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Location</th>
+                    <th>Rent</th>
+                    <th>Room Type</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for room in rooms %}
+                <tr>
+                    <td>{{ room.title }}</td>
+                    <td>{{ room.location }}</td>
+                    <td>₹{{ room.rent }}</td>
+                    <td>{{ room.room_type }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'edit_room' room.pk %}" class="btn btn-warning btn-sm me-1">✏️ Edit</a>
+                        <a href="{% url 'delete_room' room.pk %}" class="btn btn-danger btn-sm">🗑️ Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted">
+                        You have not added any rooms yet.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="text-center mt-5 text-muted">
+    © 2025 RoomFinder | Abhinav A
+</footer>
+{% endblock %}

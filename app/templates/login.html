@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Login</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <style>
+    /* BACKGROUND ANIMATED GRADIENT */
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      overflow: hidden;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #a7caff, #7bb3ff, #5399ff);
+      background-size: 300% 300%;
+      animation: gradientFlow 12s ease infinite;
+      position: relative;
+    }
+
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* FLOATING DECORATIVE SHAPES */
+    .shape {
+      position: absolute;
+      opacity: 0.12;
+      animation: floatShape 18s infinite ease-in-out;
+    }
+
+    @keyframes floatShape {
+      0% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-40px) rotate(20deg); }
+      100% { transform: translateY(0px) rotate(0deg); }
+    }
+
+    /* GLASSMORPHISM LOGIN BOX */
+    .login-card {
+      background: rgba(255, 255, 255, 0.25);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 420px;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      box-shadow: 0 10px 45px rgba(0, 0, 0, 0.18);
+      animation: floatBox 4s ease-in-out infinite;
+    }
+
+    /* Floating card animation */
+    @keyframes floatBox {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .login-card h3 {
+      font-weight: 800;
+      color: #0d47a1;
+    }
+
+    /* INPUT FIELDS */
+    .form-control {
+      border-radius: 12px;
+      padding: 13px;
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid #bcd4ff;
+      transition: 0.3s ease;
+    }
+
+    .form-control:focus {
+      border-color: #0d6efd;
+      box-shadow: 0 0 10px rgba(0, 110, 255, 0.4);
+      background: white;
+    }
+
+    /* BUTTON */
+    .btn-primary {
+      background: #0d6efd;
+      border: none;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 17px;
+      font-weight: 600;
+      transition: 0.3s ease;
+      box-shadow: 0 5px 18px rgba(0, 60, 160, 0.25);
+    }
+
+    .btn-primary:hover {
+      background: #084bb5;
+      transform: scale(1.05);
+    }
+
+    /* ANIMATED WAVES */
+    .wave {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      z-index: -1;
+      animation: waveMove 6s ease-in-out infinite alternate;
+    }
+
+    @keyframes waveMove {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(30px); }
+    }
+
+    /* FLOATING SMALL GLOW PARTICLES */
+    .bubble {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      filter: blur(2px);
+      animation: bubbleFloat 12s infinite ease-in;
+    }
+
+    @keyframes bubbleFloat {
+      0% { transform: translateY(0) scale(1); opacity: 0.8; }
+      100% { transform: translateY(-800px) scale(1.8); opacity: 0; }
+    }
+
+    a {
+      color: #0d47a1;
+      font-weight: 600;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Decorative Floating Shapes -->
+  <img src="https://cdn-icons-png.flaticon.com/512/5451/5451474.png" class="shape" style="width:140px; left:5%; top:15%; animation-duration:14s;">
+  <img src="https://cdn-icons-png.flaticon.com/512/1827/1827504.png" class="shape" style="width:120px; right:8%; top:20%; animation-duration:20s;">
+  <img src="https://cdn-icons-png.flaticon.com/512/5451/5451472.png" class="shape" style="width:100px; left:15%; bottom:20%; animation-duration:17s;">
+
+  <!-- Floating Light Bubbles -->
+  <div class="bubble" style="width:25px; height:25px; left:10%; bottom:0; animation-delay:0s;"></div>
+  <div class="bubble" style="width:15px; height:15px; left:40%; bottom:0; animation-delay:2s;"></div>
+  <div class="bubble" style="width:30px; height:30px; right:15%; bottom:0; animation-delay:4s;"></div>
+  <div class="bubble" style="width:20px; height:20px; left:75%; bottom:0; animation-delay:6s;"></div>
+
+  <!-- Animated SVG Wave -->
+  <svg class="wave" viewBox="0 0 1440 320">
+    <path fill="#9ec9ff" fill-opacity="1"
+      d="M0,256L80,224C160,192,320,128,480,128C640,128,800,192,960,202.7C1120,213,1280,171,1360,149.3L1440,128L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
+    </path>
+  </svg>
+
+  <!-- Login Card Centered -->
+  <div class="d-flex justify-content-center align-items-center h-100 w-100">
+    <div class="login-card">
+      <h3 class="text-center mb-4">Welcome Back</h3>
+
+      <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+          <label>Username</label>
+          <input type="text" name="username" class="form-control" required>
+        </div>
+
+        <div class="mb-3">
+          <label>Password</label>
+          <input type="password" name="password" class="form-control" required>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 mt-2">Login</button>
+      </form>
+
+      <p class="text-center mt-3">
+        Don’t have an account?
+        <a href="{% url 'register' %}">Register here</a>
+      </p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

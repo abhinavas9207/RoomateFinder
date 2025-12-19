@@ -1,0 +1,73 @@
+{% extends 'base_user.html' %}
+
+{% block content %}
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-primary text-white text-center py-3 rounded-top-4">
+          <h4 class="mb-0">Create Your Profile</h4>
+        </div>
+
+        <div class="card-body p-4">
+          <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label class="form-label">Full Name</label>
+              {{ form.name }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              {{ form.email }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Gender</label>
+              {{ form.gender }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Age</label>
+              {{ form.age }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Phone Number</label>
+              {{ form.phone }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Occupation</label>
+              {{ form.occupation }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Bio</label>
+              {{ form.bio }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Location</label>
+              {{ form.location }}
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Profile Image</label>
+              {{ form.profile_image }}
+            </div>
+
+            <div class="form-check mb-4">
+              {{ form.verified }}
+              <label class="form-check-label">Verified</label>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 py-2">Create Profile</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

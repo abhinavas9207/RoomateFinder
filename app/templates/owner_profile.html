@@ -1,0 +1,102 @@
+{% extends 'base_owner.html' %}
+
+{% block content %}
+<style>
+  .profile-card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      max-width: 800px;
+      margin: 40px auto;
+      transition: transform 0.3s ease;
+      position: relative;
+  }
+  .profile-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+  }
+  .profile-header {
+      text-align: center;
+      margin-bottom: 25px;
+  }
+  .profile-header h2 {
+      color: #1e40af;
+      font-weight: 700;
+  }
+  .profile-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+  }
+  .profile-details div {
+      flex: 1 1 45%;
+  }
+  .profile-details label {
+      font-weight: 600;
+      color: #3b82f6;
+  }
+  .edit-btn {
+      position: absolute;
+      top: 25px;
+      right: 25px;
+      background: #3b82f6;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-weight: 500;
+      transition: 0.3s;
+      text-decoration: none;
+  }
+  .edit-btn:hover {
+      background: #1e40af;
+      transform: scale(1.05);
+  }
+</style>
+
+<div class="profile-card">
+    <a href="{% url 'edit_owner_profile' %}" class="edit-btn">✏️ Edit</a>
+
+    <div class="profile-header">
+        <h2>👤 {{ request.user.username }}'s Profile</h2>
+        <p>Owner Account</p>
+    </div>
+
+    <div class="profile-details">
+        <div>
+            <label>Full Name:</label>
+            <p>{{ request.user.first_name }}</p>
+        </div>
+        <div>
+            <label>Email:</label>
+            <p>{{ profile.user.email }}</p>
+        </div>
+        <div>
+            <label>Address:</label>
+            <p>{{ profile.address }}</p>
+        </div>
+        <div>
+            <label>Contact Number:</label>
+            <p>{{ profile.contact_number }}</p>
+        </div>
+        <div>
+            <label>Verified:</label>
+            <p>{{ profile.verified|yesno:"Yes,No" }}</p>
+        </div>
+        <div>
+            <label>Rating:</label>
+            <p>{{ profile.rating }}</p>
+        </div>
+        <div>
+            <label>Total Listings:</label>
+            <p>{{ profile.total_listings }}</p>
+        </div>
+        <div>
+            <label>Joined Date:</label>
+            <p>{{ profile.joined_date|date:"d M Y" }}</p>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

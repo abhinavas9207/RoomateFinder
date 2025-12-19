@@ -1,0 +1,117 @@
+{% extends "base_owner.html" %}
+
+{% block content %}
+<style>
+  .profile-card {
+      max-width: 750px;
+      margin: 40px auto;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+      padding: 40px;
+  }
+
+  .section-title {
+      font-weight: 600;
+      color: #1e40af;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+  }
+
+  .form-wrapper p {
+      margin-bottom: 18px;
+  }
+
+  .form-wrapper label {
+      font-weight: 500;
+      color: #334155;
+      margin-bottom: 6px;
+      display: block;
+  }
+
+  .form-wrapper input,
+  .form-wrapper textarea,
+  .form-wrapper select {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 12px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      transition: all 0.25s ease;
+  }
+
+  .form-wrapper input:focus,
+  .form-wrapper textarea:focus,
+  .form-wrapper select:focus {
+      background-color: #ffffff;
+      border-color: #2563eb;
+      outline: none;
+      box-shadow: 0 0 0 0.15rem rgba(37,99,235,0.25);
+  }
+
+  .divider {
+      height: 1px;
+      background: linear-gradient(to right, transparent, #e5e7eb, transparent);
+      margin: 30px 0;
+  }
+
+  .btn-save {
+      background: linear-gradient(135deg, #2563eb, #1e40af);
+      color: #ffffff;
+      border-radius: 14px;
+      padding: 12px 34px;
+      font-weight: 600;
+      border: none;
+      transition: 0.3s ease;
+  }
+
+  .btn-save:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37,99,235,0.35);
+  }
+
+  .btn-cancel {
+      margin-left: 12px;
+      border-radius: 14px;
+      padding: 12px 34px;
+      font-weight: 600;
+  }
+</style>
+
+<div class="profile-card">
+    <h3 class="text-center fw-bold text-primary mb-4">
+        👤 Edit Owner Profile
+    </h3>
+
+    <form method="POST" enctype="multipart/form-data" class="form-wrapper">
+        {% csrf_token %}
+
+        <!-- BASIC DETAILS -->
+        <h5 class="section-title">
+            <i class="fa-solid fa-user"></i> Basic Details
+        </h5>
+
+        {{ user_form.as_p }}
+
+        <div class="divider"></div>
+
+        <!-- OWNER PROFILE -->
+        <h5 class="section-title">
+            <i class="fa-solid fa-id-card"></i> Owner Profile
+        </h5>
+
+        {{ profile_form.as_p }}
+
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-save">
+                💾 Save Changes
+            </button>
+            <a href="{% url 'owner_dashboard' %}" class="btn btn-outline-secondary btn-cancel">
+                Cancel
+            </a>
+        </div>
+    </form>
+</div>
+{% endblock %}

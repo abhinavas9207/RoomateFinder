@@ -1,0 +1,115 @@
+{% extends 'base_user.html' %}
+{% load static %}
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<div class="container-fluid px-4 py-3">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold text-dark mb-0">Welcome, {{ request.user.username }} 👋</h2>
+      <p class="text-muted mb-0">Find rooms, rate listings, and connect with roommates easily.</p>
+    </div>
+    <form class="d-flex" method="get">
+      <input 
+        class="form-control me-2 rounded-pill" 
+        type="search" 
+        name="search" 
+        placeholder="Search by location..." 
+        value="{{ query }}">
+      <button class="btn btn-primary rounded-pill px-4" type="submit">
+        <i class="fa-solid fa-search"></i>
+      </button>
+    </form>
+  </div>
+
+  <!-- Quick Stats -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4 p-3 d-flex flex-row align-items-center">
+        <div class="bg-primary bg-opacity-10 p-3 rounded-3 me-3">
+          <i class="fa-solid fa-house fa-lg text-primary"></i>
+        </div>
+        <div>
+          <h6 class="text-muted mb-1">Total Rooms</h6>
+          <h5 class="fw-semibold mb-0">{{ total_rooms }}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4 p-3 d-flex flex-row align-items-center">
+        <div class="bg-success bg-opacity-10 p-3 rounded-3 me-3">
+          <i class="fa-solid fa-star fa-lg text-success"></i>
+        </div>
+        <div>
+          <h6 class="text-muted mb-1">Rated Rooms</h6>
+          <h5 class="fw-semibold mb-0">{{ rated_rooms }}</h5>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4 p-3 d-flex flex-row align-items-center">
+        <div class="bg-warning bg-opacity-10 p-3 rounded-3 me-3">
+          <i class="fa-solid fa-users fa-lg text-warning"></i>
+        </div>
+        <div>
+          <h6 class="text-muted mb-1">Roommates Found</h6>
+          <h5 class="fw-semibold mb-0">{{ roommates_found }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Available Rooms -->
+  <div class="card border-0 shadow-sm rounded-4 p-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="fw-bold text-dark mb-0"><i class="fa-solid fa-bed"></i> Available Rooms</h4>
+    </div>
+
+    <div class="row">
+      {% for room in rooms %}
+      <div class="col-md-4 mb-4">
+        <div class="card border-0 shadow-sm rounded-4 room-card h-100">
+          {% if room.image %}
+            <img src="{{ room.image.url }}" class="card-img-top rounded-top-4" alt="Room image" style="height: 200px; object-fit: cover;">
+          {% else %}
+            <img src="{% static 'images/no-image.jpg' %}" class="card-img-top rounded-top-4" alt="No image" style="height: 200px; object-fit: cover;">
+          {% endif %}
+          <div class="card-body">
+            <h5 class="fw-semibold">{{ room.title }}</h5>
+            <p class="text-muted small mb-1">
+              <i class="fa-solid fa-location-dot text-primary"></i> {{ room.location }}
+            </p>
+            <p class="fw-semibold mb-2">₹{{ room.rent }} / month</p>
+            <div class="d-flex justify-content-between">
+              <a href="{% url 'rate_room' room.id %}" class="btn btn-outline-success btn-sm rounded-pill">
+                <i class="fa-solid fa-star"></i> Rate
+              </a>
+              <a href="#" class="btn btn-outline-primary btn-sm rounded-pill">
+                <i class="fa-solid fa-eye"></i> View
+              </a>
+                  <a href="{% url 'start_chat' room.id %}" class="btn btn-outline-primary btn-sm rounded-pill">
+        <i class="fa-solid fa-comments"></i> Chat Owner
+    </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p class="text-center text-muted">No rooms available right now. Try again later.</p>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+.room-card {
+  transition: all 0.3s ease-in-out;
+}
+.room-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+</style>
+{% endblock %}

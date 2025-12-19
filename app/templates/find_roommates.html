@@ -1,0 +1,103 @@
+{% extends 'base_user.html' %}
+{% block content %}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #dce9ff, #b3ccff);
+        font-family: "Poppins", sans-serif;
+        min-height: 100vh;
+    }
+
+    .page-title {
+        font-weight: 700;
+        color: #0d47a1;
+        margin-bottom: 25px;
+        text-align: center;
+        letter-spacing: 0.5px;
+    }
+
+    /* Roommate Card Styling */
+    .roommate-card {
+        background: #ffffff;
+        border-radius: 16px;
+        padding: 20px;
+        border: 1px solid #e0eaff;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        transition: 0.25s ease-in-out;
+    }
+
+    .roommate-card:hover {
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        border-color: #bccfff;
+    }
+
+    .roommate-card h5 {
+        font-weight: 700;
+        color: #0d47a1;
+    }
+
+    .roommate-info p {
+        margin: 5px 0;
+        font-weight: 500;
+        color: #1a237e;
+    }
+
+    /* Background decorative shapes */
+    .bg-shape {
+        position: absolute;
+        border-radius: 50%;
+        filter: blur(70px);
+        z-index: -1;
+    }
+
+    .shape-blue {
+        width: 250px;
+        height: 250px;
+        background: #4d79ff;
+        top: 50px;
+        left: 40px;
+        opacity: 0.3;
+    }
+
+    .shape-light {
+        width: 300px;
+        height: 300px;
+        background: #a6c8ff;
+        bottom: 80px;
+        right: 60px;
+        opacity: 0.3;
+    }
+</style>
+
+<!-- Decorative Background Shapes -->
+<div class="bg-shape shape-blue"></div>
+<div class="bg-shape shape-light"></div>
+
+<h3 class="page-title">Suggested Roommates</h3>
+
+<div class="container">
+  <div class="row">
+    {% for pref in roommates %}
+      <div class="col-md-4 mb-4">
+        <div class="roommate-card">
+          <h5>{{ pref.user.name }}</h5>
+          <div class="roommate-info">
+            <p><strong>📍 Location:</strong> {{ pref.preferred_location }}</p>
+            <p><strong>💰 Budget:</strong> ₹{{ pref.budget_min }} - ₹{{ pref.budget_max }}</p>
+            <p><strong>🧼 Cleanliness:</strong> {{ pref.cleanliness }}</p>
+          </div>
+          <a href="{% url 'start_user_chat' user.id %}" class="btn btn-primary btn-sm">
+    <i class="fa-solid fa-comments"></i> Chat
+</a>
+
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-center mt-4" style="font-weight:600; color:#0d47a1;">
+        No compatible roommates found based on your preferences.
+      </p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}
