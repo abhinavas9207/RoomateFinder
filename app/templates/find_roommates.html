@@ -16,7 +16,6 @@
         letter-spacing: 0.5px;
     }
 
-    /* Roommate Card Styling */
     .roommate-card {
         background: #ffffff;
         border-radius: 16px;
@@ -42,7 +41,23 @@
         color: #1a237e;
     }
 
-    /* Background decorative shapes */
+    .chat-btn {
+        display: inline-block;
+        margin-top: 12px;
+        padding: 8px 14px;
+        background: #2563eb;
+        color: #fff;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: background 0.2s ease;
+    }
+
+    .chat-btn:hover {
+        background: #1e40af;
+        color: #fff;
+    }
+
     .bg-shape {
         position: absolute;
         border-radius: 50%;
@@ -76,28 +91,33 @@
 <h3 class="page-title">Suggested Roommates</h3>
 
 <div class="container">
-  <div class="row">
-    {% for pref in roommates %}
-      <div class="col-md-4 mb-4">
-        <div class="roommate-card">
-          <h5>{{ pref.user.name }}</h5>
-          <div class="roommate-info">
-            <p><strong>📍 Location:</strong> {{ pref.preferred_location }}</p>
-            <p><strong>💰 Budget:</strong> ₹{{ pref.budget_min }} - ₹{{ pref.budget_max }}</p>
-            <p><strong>🧼 Cleanliness:</strong> {{ pref.cleanliness }}</p>
-          </div>
-          <a href="{% url 'start_user_chat' user.id %}" class="btn btn-primary btn-sm">
-    <i class="fa-solid fa-comments"></i> Chat
-</a>
+    <div class="row">
+        {% for pref in roommates %}
+            <div class="col-md-4 mb-4">
+                <div class="roommate-card">
+                    <h5>{{ pref.user.name }}</h5>
 
-        </div>
-      </div>
-    {% empty %}
-      <p class="text-center mt-4" style="font-weight:600; color:#0d47a1;">
-        No compatible roommates found based on your preferences.
-      </p>
-    {% endfor %}
-  </div>
+                    <div class="roommate-info">
+                        <p><strong>📍 Location:</strong> {{ pref.preferred_location }}</p>
+                        <p><strong>💰 Budget:</strong> ₹{{ pref.budget_min }} - ₹{{ pref.budget_max }}</p>
+                        <p><strong>🧼 Cleanliness:</strong> {{ pref.cleanliness }}</p>
+                    </div>
+
+                    {# ✅ CHAT BUTTON – FIXED #}
+                    {% if pref.user.user.id != request.user.id %}
+                        <a href="{% url 'start_user_chat' pref.user.user.id %}"
+                           class="chat-btn">
+                           💬 Chat
+                        </a>
+                    {% endif %}
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center mt-4" style="font-weight:600; color:#0d47a1;">
+                No compatible roommates found based on your preferences.
+            </p>
+        {% endfor %}
+    </div>
 </div>
 
 {% endblock %}

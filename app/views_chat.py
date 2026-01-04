@@ -1,48 +1,34 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import ChatRoom, Room_Details , Custom_User , ChatMessage
+from django.contrib import messages
+from django.db import models
 
 
 @login_required
 def start_chat(request, room_id):
     room = get_object_or_404(Room_Details, id=room_id)
-    owner_user = room.owner.user  # assuming your Room_Details has a related owner
+    owner_user = room.owner.user
 
-    # Check if a chat already exists between the current user and owner for this room
+    # 🚫 Prevent chatting with yourself
+    if request.user == owner_user:
+        messages.error(request, "You cannot chat with yourself.")
+        return redirect("user_dashboard")
+
     chat = ChatRoom.objects.filter(room=room)\
-                           .filter(participants=request.user)\
-                           .filter(participants=owner_user)\
-                           .first()
+        .filter(participants=request.user)\
+        .filter(participants=owner_user)\
+        .first()
 
     if not chat:
         chat = ChatRoom.objects.create(room=room)
-        chat.participants.add(request.user, owner_user)
+        chat.participants.set([request.user, owner_user])  # 🔥 IMPORTANT
 
-    return redirect('chat_room', chat.id)
+    return redirect("chat_room", chat.id)
 
 
 
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
 
-@login_required
-@require_POST
-def send_message(request, chat_id):
-    chat = get_object_or_404(ChatRoom, id=chat_id)
-
-    # Ensure user is part of the chat
-    if request.user not in chat.participants.all():
-        return JsonResponse({'status': 'error', 'msg': 'Unauthorized'}, status=403)
-
-    message_text = request.POST.get('message', '').strip()
-    if message_text:
-        ChatMessage.objects.create(
-            chat=chat,
-            sender=request.user,
-            message=message_text
-        )
-
-    return JsonResponse({'status': 'success'})
 
 
 
@@ -109,18 +95,23 @@ from django.db.models import Count
 def start_user_chat(request, user_id):
     other_user = get_object_or_404(Custom_User, id=user_id)
 
-    # Check if a 1-to-1 chat already exists
+    # 🚫 Prevent self-chat
+    if request.user == other_user:
+        messages.error(request, "You cannot chat with yourself.")
+        return redirect("user_dashboard")
+
     chat = ChatRoom.objects.filter(participants=request.user)\
-                           .filter(participants=other_user)\
-                           .annotate(num_participants=Count('participants'))\
-                           .filter(num_participants=2)\
-                           .first()
+        .filter(participants=other_user)\
+        .annotate(count=models.Count("participants"))\
+        .filter(count=2)\
+        .first()
 
     if not chat:
         chat = ChatRoom.objects.create()
-        chat.participants.add(request.user, other_user)
+        chat.participants.set([request.user, other_user])  # 🔥 IMPORTANT
 
-    return redirect('chat_room', chat.id)
+    return redirect("chat_room", chat.id)
+
 
 
     

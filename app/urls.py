@@ -32,7 +32,7 @@ urlpatterns = [
 
     path('start/<int:room_id>/', views_chat.start_chat, name='start_chat'),
     path('room/<int:chat_id>/', views_chat.chat_room, name='chat_room'),
-    path('chat/send/<int:chat_id>/', views_chat.send_message, name='send_message'),
+ 
     path('owner/chats/', views_chat.owner_chat_list, name='owner_chat_list'),
     path('user/chats/', views_chat.user_chat_list, name='user_chat_list'),
     path('start-user-chat/<int:user_id>/', views_chat.start_user_chat, name='start_user_chat'),
