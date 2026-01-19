@@ -1,13 +1,148 @@
-<h3>My Chats</h3>
-{% for c in chat_data %}
-<div style="border:1px solid #ccc;padding:10px;margin:10px">
-<b>User:</b> {{ c.chat.user.username }}<br>
-<b>Room:</b> {{ c.chat.room.title }}<br>
-<b>Last:</b> {{ c.last.message|default:"No messages" }}
-{% if c.unread > 0 %}
-<span style="color:red">({{ c.unread }})</span>
-{% endif %}
-<br>
-<a href="{% url 'chat_room' c.chat.id %}">Open</a>
+{% extends "base_owner.html" %}
+{% load static %}
+
+{% block title %}My Chats{% endblock %}
+
+{% block extra_css %}
+<style>
+  .page-title {
+    color: #4338ca;
+    font-weight: 700;
+    margin-bottom: 25px;
+  }
+
+  .chat-card {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 18px;
+    box-shadow: 0 12px 28px rgba(79, 70, 229, 0.15);
+    transition: 0.3s ease;
+    height: 100%;
+  }
+
+  .chat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 18px 40px rgba(79, 70, 229, 0.25);
+  }
+
+  .chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: #1f2937;
+  }
+
+  .user-info i {
+    font-size: 22px;
+    color: #4f46e5;
+  }
+
+  .unread-badge {
+    background: #ef4444;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 999px;
+  }
+
+  .chat-body p {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #374151;
+  }
+
+  .chat-body i {
+    margin-right: 6px;
+    color: #6366f1;
+  }
+
+  .last-msg {
+    font-style: italic;
+    color: #6b7280;
+  }
+
+  .chat-footer {
+    text-align: right;
+    margin-top: 12px;
+  }
+
+  .chat-footer a {
+    background: linear-gradient(135deg, #4f46e5, #4338ca);
+    color: #fff;
+    padding: 6px 14px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .chat-footer a:hover {
+    opacity: 0.9;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<h3 class="page-title">
+  <i class="fa-solid fa-comments"></i> My Chats
+</h3>
+
+<div class="row">
+  {% for c in chat_data %}
+  <div class="col-md-6 col-lg-4 mb-4">
+    <div class="chat-card">
+
+      <!-- HEADER -->
+      <div class="chat-header">
+        <div class="user-info">
+          <i class="fa-solid fa-user-circle"></i>
+
+          {% for user in c.chat.participants.all %}
+            {% if user != request.user %}
+              {{ user.username }}
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {% if c.unread > 0 %}
+          <span class="unread-badge">{{ c.unread }}</span>
+        {% endif %}
+      </div>
+
+      <!-- BODY -->
+      <div class="chat-body">
+        <p>
+          <i class="fa-solid fa-house"></i>
+          <strong>Room:</strong> {{ c.chat.room.title }}
+        </p>
+
+        <p class="last-msg">
+          <i class="fa-solid fa-message"></i>
+          {{ c.last.message|default:"No messages yet" }}
+        </p>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="chat-footer">
+        <a href="{% url 'chat_room' c.chat.id %}">
+          Open Chat
+        </a>
+      </div>
+
+    </div>
+  </div>
+  {% empty %}
+    <p class="text-muted">No chats available.</p>
+  {% endfor %}
 </div>
-{% endfor %}
+
+{% endblock %}

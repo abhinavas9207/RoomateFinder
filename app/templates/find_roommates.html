@@ -98,10 +98,47 @@
                     <h5>{{ pref.user.name }}</h5>
 
                     <div class="roommate-info">
-                        <p><strong>📍 Location:</strong> {{ pref.preferred_location }}</p>
-                        <p><strong>💰 Budget:</strong> ₹{{ pref.budget_min }} - ₹{{ pref.budget_max }}</p>
-                        <p><strong>🧼 Cleanliness:</strong> {{ pref.cleanliness }}</p>
-                    </div>
+    <p><strong>📍 Location:</strong> {{ pref.preferred_location }}</p>
+
+    <p><strong>💰 Budget:</strong>
+        ₹{{ pref.budget_min }} - ₹{{ pref.budget_max }}
+    </p>
+
+    <p><strong>🧼 Cleanliness:</strong>
+        {{ pref.get_cleanliness_display }}
+    </p>
+
+    <p><strong>🚻 Gender Preference:</strong>
+        {{ pref.get_gender_preference_display }}
+    </p>
+
+    <p><strong>🎯 Hobbies:</strong>
+        {% if pref.hobbies %}
+            {{ pref.hobbies }}
+        {% else %}
+            Not specified
+        {% endif %}
+    </p>
+
+    <p><strong>🚬 Smoking:</strong>
+        {% if pref.smoking %} Yes {% else %} No {% endif %}
+    </p>
+
+    <p><strong>🍺 Drinking:</strong>
+        {% if pref.drinking %} Yes {% else %} No {% endif %}
+    </p>
+
+    <p><strong>🐾 Pets:</strong>
+        {% if pref.pets %} Yes {% else %} No {% endif %}
+    </p>
+
+    {% if pref.lifestyle_notes %}
+        <p><strong>📝 Lifestyle Notes:</strong>
+            {{ pref.lifestyle_notes }}
+        </p>
+    {% endif %}
+</div>
+
 
                     {# ✅ CHAT BUTTON – FIXED #}
                     {% if pref.user.user.id != request.user.id %}

@@ -22,7 +22,7 @@ def start_chat(request, room_id):
 
     if not chat:
         chat = ChatRoom.objects.create(room=room)
-        chat.participants.set([request.user, owner_user])  # 🔥 IMPORTANT
+        chat.participants.set([request.user, owner_user])  
 
     return redirect("chat_room", chat.id)
 
@@ -37,12 +37,21 @@ def chat_room(request, chat_id):
     chat = get_object_or_404(ChatRoom, id=chat_id)
 
     # Mark unread messages as read
-    chat.messages.filter(is_read=False).exclude(sender=request.user).update(is_read=True)
+    chat.messages.filter(
+        is_read=False
+    ).exclude(
+        sender=request.user
+    ).update(is_read=True)
 
-    return render(request, 'private_chat.html', {
-        'chat': chat,
-        'messages': chat.messages.order_by('timestamp')
+    # Select template based on role
+    template = "chat_owner.html" if request.user.role == "OWNER" else "chat_user.html"
+
+    return render(request, template, {
+        "chat": chat,
+        "messages": chat.messages.order_by("timestamp"),
     })
+
+
 
 
 
@@ -108,7 +117,7 @@ def start_user_chat(request, user_id):
 
     if not chat:
         chat = ChatRoom.objects.create()
-        chat.participants.set([request.user, other_user])  # 🔥 IMPORTANT
+        chat.participants.set([request.user, other_user]) 
 
     return redirect("chat_room", chat.id)
 

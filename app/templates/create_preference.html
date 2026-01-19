@@ -4,136 +4,152 @@
 {% block title %}My Preferences{% endblock %}
 
 {% block content %}
-<div class="container py-5">
-  <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+<div class="preferences-page">
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="pref-card animate-fade">
 
-    <!-- Header -->
-    <div class="card-header text-white text-center py-4 border-0"
-      style="background: linear-gradient(135deg, #4c6ef5, #6a11cb);">
-      <h3 class="mb-0 fw-semibold">
-        <i class="bi bi-sliders2-vertical me-2"></i>My Preferences
-      </h3>
-      <p class="text-white-50 small mb-0">Customize your roommate and living preferences</p>
-    </div>
-
-    <!-- Body -->
-    <div class="card-body p-5 bg-light-subtle">
-      <form method="POST" novalidate>
-        {% csrf_token %}
-
-        <div class="row g-4">
-
-          <!-- Budget -->
-          <div class="col-md-6">
-            <label class="form-label fw-semibold text-secondary">Minimum Budget</label>
-            {{ form.budget_min }}
+          <!-- Header -->
+          <div class="pref-header">
+            <div class="icon-box">
+              <i class="bi bi-sliders2-vertical"></i>
+            </div>
+            <div>
+              <h3 class="mb-1">My Preferences</h3>
+              <p>Customize your roommate and lifestyle preferences</p>
+            </div>
           </div>
 
-          <div class="col-md-6">
-            <label class="form-label fw-semibold text-secondary">Maximum Budget</label>
-            {{ form.budget_max }}
-          </div>
+          <!-- Form -->
+          <form method="POST" novalidate>
+            {% csrf_token %}
 
-          <!-- Location -->
-          <div class="col-12">
-            <label class="form-label fw-semibold text-secondary">Preferred Location</label>
-            {{ form.preferred_location }}
-          </div>
+            <div class="row g-4">
 
-          <!-- Hobbies -->
-          <div class="col-12">
-            <label class="form-label fw-semibold text-secondary mb-3">
-              Select Hobbies
-            </label>
+              <!-- Budget -->
+              <div class="col-md-6">
+                <label class="form-label">Minimum Budget</label>
+                {{ form.budget_min }}
+              </div>
 
-            <div class="row g-3">
-              {% for checkbox in form.hobbies %}
-                <div class="col-md-4 col-sm-6">
-                  <div class="form-check bg-white rounded-3 p-3 shadow-sm">
-                    {{ checkbox.tag }}
-                    <label class="form-check-label fw-medium ms-2">
-                      {{ checkbox.choice_label }}
-                    </label>
-                  </div>
+              <div class="col-md-6">
+                <label class="form-label">Maximum Budget</label>
+                {{ form.budget_max }}
+              </div>
+
+              <!-- Location -->
+              <div class="col-12">
+                <label class="form-label">Preferred Location</label>
+                {{ form.preferred_location }}
+              </div>
+
+              <!-- Hobbies -->
+              <div class="col-12">
+                <label class="form-label mb-3">Select Hobbies</label>
+                <div class="row g-3">
+                  {% for checkbox in form.hobbies %}
+                    <div class="col-md-4 col-sm-6">
+                      <label class="hobby-card">
+                        {{ checkbox.tag }}
+                        <span>{{ checkbox.choice_label }}</span>
+                      </label>
+                    </div>
+                  {% endfor %}
                 </div>
-              {% endfor %}
+              </div>
+
+              <!-- Preferences -->
+              <div class="col-md-6">
+                <label class="form-label">Gender Preference</label>
+                {{ form.gender_preference }}
+              </div>
+
+              <div class="col-md-6">
+                <label class="form-label">Cleanliness Level</label>
+                {{ form.cleanliness }}
+              </div>
+
+              <!-- Notes -->
+              <div class="col-12">
+                <label class="form-label">Lifestyle Notes</label>
+                {{ form.lifestyle_notes }}
+              </div>
+
+              <!-- Switches -->
+              <div class="col-md-4">
+                <label class="switch-card">
+                  {{ form.smoking }}
+                  <span>Smoking</span>
+                </label>
+              </div>
+
+              <div class="col-md-4">
+                <label class="switch-card">
+                  {{ form.drinking }}
+                  <span>Drinking</span>
+                </label>
+              </div>
+
+              <div class="col-md-4">
+                <label class="switch-card">
+                  {{ form.pets }}
+                  <span>Pets</span>
+                </label>
+              </div>
+
             </div>
-          </div>
 
-
-          <!-- Preferences -->
-          <div class="col-md-6">
-            <label class="form-label fw-semibold text-secondary">Gender Preference</label>
-            {{ form.gender_preference }}
-          </div>
-
-          <div class="col-md-6">
-            <label class="form-label fw-semibold text-secondary">Cleanliness Level</label>
-            {{ form.cleanliness }}
-          </div>
-
-          <!-- Notes -->
-          <div class="col-12">
-            <label class="form-label fw-semibold text-secondary">Lifestyle Notes</label>
-            {{ form.lifestyle_notes }}
-          </div>
-
-          <!-- Switches -->
-          <div class="col-md-4 d-flex align-items-center">
-            <div class="form-check form-switch">
-              {{ form.smoking }}
-              <label class="form-check-label fw-semibold" for="{{ form.smoking.id_for_label }}">
-                Smoking
-              </label>
+            <!-- Submit -->
+            <div class="text-center mt-5">
+              <button type="submit" class="btn-save">
+                <i class="bi bi-save2 me-2"></i>Save Preferences
+              </button>
             </div>
-          </div>
 
-          <div class="col-md-4 d-flex align-items-center">
-            <div class="form-check form-switch">
-              {{ form.drinking }}
-              <label class="form-check-label fw-semibold" for="{{ form.drinking.id_for_label }}">
-                Drinking
-              </label>
-            </div>
-          </div>
-
-          <div class="col-md-4 d-flex align-items-center">
-            <div class="form-check form-switch">
-              {{ form.pets }}
-              <label class="form-check-label fw-semibold" for="{{ form.pets.id_for_label }}">
-                Pets
-              </label>
-            </div>
-          </div>
-
+          </form>
         </div>
-
-        <!-- Submit -->
-        <div class="text-center mt-5">
-          <button type="submit"
-            class="btn btn-gradient px-5 py-2 rounded-pill fw-semibold shadow-sm"
-            style="background: linear-gradient(90deg, #6a11cb, #4c6ef5); color: white;">
-            <i class="bi bi-save2 me-2"></i>Save Preferences
-          </button>
-        </div>
-
-      </form>
+      </div>
     </div>
-
   </div>
 </div>
 
 <style>
-  .form-control,
-  select,
-  textarea {
-    border-radius: 10px !important;
-    border: 1px solid #dee2e6 !important;
-    background-color: #fff !important;
-  }
-  .form-control:focus {
-    border-color: #6a11cb !important;
-    box-shadow: 0 0 0 0.2rem rgba(106, 17, 203, 0.25) !important;
-  }
+/* PAGE */
+.preferences-page { min-height: 100vh; background: #eef2ff; font-family: "Poppins", sans-serif; }
+
+/* CARD */
+.pref-card { background: #ffffff; border-radius: 24px; padding: 40px; box-shadow: 0 15px 40px rgba(79,70,229,0.15); border-top: 6px solid #4f46e5; }
+
+/* HEADER */
+.pref-header { display: flex; gap: 20px; align-items: center; margin-bottom: 35px; }
+.icon-box { width: 54px; height: 54px; background: #eef2ff; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: #4f46e5; font-size: 1.4rem; }
+.pref-header h3 { font-weight: 700; color: #1e293b; }
+.pref-header p { margin: 0; color: #64748b; }
+
+/* FORM */
+.form-label { font-weight: 600; color: #1e293b; margin-bottom: 6px; }
+input, select, textarea { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid #c7d2fe; background: #eef2ff; transition: 0.3s ease; }
+input:focus, select:focus, textarea:focus { outline: none; background: #ffffff; border-color: #4f46e5; box-shadow: 0 0 0 3px rgba(79,70,229,0.15); }
+
+/* HOBBIES */
+.hobby-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: #f8fafc; border-radius: 14px; border: 1px solid #e0e7ff; transition: 0.3s ease; }
+.hobby-card input[type="checkbox"] { width: 18px; height: 18px; accent-color: #4f46e5; cursor: pointer; }
+.hobby-card span { font-weight: 500; color: #1e293b; }
+.hobby-card:hover { background: #eef2ff; border-color: #4f46e5; transform: translateY(-2px); }
+
+/* SWITCHES */
+.switch-card { display: flex; align-items: center; gap: 12px; background: #f8fafc; padding: 14px; border-radius: 14px; border: 1px solid #e0e7ff; cursor: pointer; }
+
+/* BUTTON */
+.btn-save { background: linear-gradient(135deg, #4f46e5, #4338ca); color: #ffffff; padding: 12px 40px; border-radius: 999px; border: none; font-weight: 600; transition: 0.3s ease; }
+.btn-save:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(79,70,229,0.35); }
+
+/* ANIMATION */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.animate-fade { animation: fadeIn 0.6s ease; }
+
+/* MOBILE */
+@media (max-width: 576px) { .pref-card { padding: 28px; } }
 </style>
 {% endblock %}
