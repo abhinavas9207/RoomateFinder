@@ -34,22 +34,29 @@ def start_chat(request, room_id):
 
 @login_required
 def chat_room(request, chat_id):
-    chat = get_object_or_404(ChatRoom, id=chat_id)
+    chat = get_object_or_404(
+        ChatRoom,
+        id=chat_id,
+        participants=request.user
+    )
 
-    # Mark unread messages as read
     chat.messages.filter(
         is_read=False
     ).exclude(
         sender=request.user
     ).update(is_read=True)
 
-    # Select template based on role
-    template = "chat_owner.html" if request.user.role == "OWNER" else "chat_user.html"
+    template = (
+        "chat_owner.html"
+        if request.user.role == "OWNER"
+        else "chat_user.html"
+    )
 
     return render(request, template, {
         "chat": chat,
         "messages": chat.messages.order_by("timestamp"),
     })
+
 
 
 
